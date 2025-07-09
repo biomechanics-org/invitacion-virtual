@@ -1,50 +1,28 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Biomechanics AR</title>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.152.0/build/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.4/dist/mindar-image-three.prod.js"></script>
-    <style>
-      body { margin: 0; overflow: hidden; }
-      canvas { display: block; }
-    </style>
-  </head>
-  <body>
-    <div id="ar-container"></div>
 
-    <script type="module">
-      import { loadGLTF } from 'https://cdn.jsdelivr.net/npm/mind-ar@1.1.4/examples/utils/loader.js';
+<head>
+  <title>Biomechanics AR</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.jsdelivr.net/npm/three@0.152.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.1.4/dist/mindar-image-three.prod.js"></script>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
 
-      const mindarThree = new window.MINDAR.IMAGE.MindARThree({
-        container: document.querySelector("#ar-container"),
-        imageTargetSrc: "./biomechanics_marker.mind",
-      });
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
 
-      const { renderer, scene, camera } = mindarThree;
+<body>
+  <div id="ar-container"></div>
 
-      const anchor = mindarThree.addAnchor(0);
+  <!-- Script principal externo -->
+  <script type="module" src="./main.js"></script>
+</body>
 
-      const light = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
-      scene.add(light);
-
-      const start = async () => {
-        await mindarThree.start();
-        renderer.setAnimationLoop(() => {
-          renderer.render(scene, camera);
-        });
-      };
-
-      const gltf = await loadGLTF("./logo_biomechanics.glb");
-      gltf.scene.scale.set(0.2, 0.2, 0.2);
-      anchor.group.add(gltf.scene);
-
-      // Agregar rotación continua
-      mindarThree.renderer.setAnimationLoop(() => {
-        gltf.scene.rotation.y += 0.01;
-        renderer.render(scene, camera);
-      });
-
-      start();
-    </script>
-  </body>
 </html>
