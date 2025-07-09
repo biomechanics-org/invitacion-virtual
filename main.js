@@ -14,7 +14,9 @@ scene.add(light);
 let gltf;
 
 const start = async () => {
+    console.log("MindAR starting...");
     await mindarThree.start();
+    console.log("MindAR started");
     renderer.setAnimationLoop(() => {
         if (gltf) {
             gltf.scene.rotation.y += 0.01;
@@ -23,10 +25,15 @@ const start = async () => {
     });
 };
 
-loadGLTF("./logo_biomechanics.glb").then(result => {
-    gltf = result;
-    gltf.scene.scale.set(0.2, 0.2, 0.2);
-    anchor.group.add(gltf.scene);
-});
+loadGLTF("./logo_biomechanics.glb")
+    .then(result => {
+        console.log("GLTF loaded");
+        gltf = result;
+        gltf.scene.scale.set(0.2, 0.2, 0.2);
+        anchor.group.add(gltf.scene);
+    })
+    .catch(err => {
+        console.error("Error loading GLTF:", err);
+    });
 
 start();
